@@ -9,7 +9,7 @@
 {#- Tool Definition Rendering ============================================== #}
 {%- macro render_typescript_type(param_spec, required_params, is_nullable=false) -%}
     {%- if param_spec.type == "array" -%}
-        {%- if param_spec['items'] -%}
+        {%- if 'items' in param_spec -%}
             {%- if param_spec['items']['type'] == "string" -%}
                 {{- "string[]" }}
             {%- elif param_spec['items']['type'] == "number" -%}
