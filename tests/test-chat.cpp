@@ -6514,6 +6514,18 @@ static void test_template_output_peg_parsers(bool detailed_debug) {
             .expect_content(R"({"amount": 123.45, "date": "2025-12-03"})")
             .run();
 
+        // Constraint tag on the final channel without structured output.
+        // gpt-oss-20b emits this when the prompt asks for the answer under a named key.
+        tst.test(
+            "<|channel|>analysis<|message|>Need to output with key polite<|end|>"
+            "<|start|>assistant<|channel|>final <|constrain|>polite"
+            "<|message|>Hello, world!"
+            )
+            .reasoning_format(COMMON_REASONING_FORMAT_AUTO)
+            .expect_reasoning("Need to output with key polite")
+            .expect_content("Hello, world!")
+            .run();
+
 
         // Unsolicited tool calls. There is no good way to handle these, so we return empty content.
 
